@@ -1,0 +1,3 @@
+import {Shell} from '@/app/components/Shell'
+export default function Sobre(){return <Shell title="Sobre a Escola"><h1>Formação para a cidadania</h1><p>A Escola do Legislativo Dr. Thiago Ferraz de Siqueira promove educação legislativa, participação social e acesso ao conhecimento produzido pela Câmara Municipal de Mococa.</p><div className="grid"><article className="card"><h2>Missão</h2><p>Ampliar o diálogo entre a Câmara, a comunidade e as instituições de ensino.</p></article><article className="card"><h2>Atuação</h2><p>Cursos, eventos, publicações, visitas, debates e ações de formação.</p></article><article className="card"><h2>Compromissos</h2><p>Acessibilidade, proteção de dados, transparência e atendimento respeitoso.</p></article></div></Shell>}
+
