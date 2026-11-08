@@ -1,0 +1,4 @@
+import {Shell} from '@/app/components/Shell'
+import {createClient} from '@/lib/supabase/server'
+export default async function Documentos(){const supabase=await createClient();const {data}=await supabase.from('institutional_documents').select('title,document_type,document_date,document_number,pdf_path').eq('status','published').order('document_date',{ascending:false});return <Shell title="Documentos institucionais"><h1>Documentos oficiais</h1><div className="grid">{(data??[]).map(d=><article className="card" key={`${d.title}-${d.document_number}`}><span className="status">{d.document_type}</span><h2>{d.title}</h2><p>{d.document_number||''} {d.document_date?new Date(d.document_date).toLocaleDateString('pt-BR'):''}</p>{d.pdf_path&&<a className="button secondary" href={d.pdf_path}>Abrir PDF</a>}</article>)}{!data?.length&&<article className="card"><h2>Documentos em atualização</h2><p>Os documentos publicados aparecerão aqui.</p></article>}</div></Shell>}
+
