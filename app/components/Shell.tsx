@@ -1,0 +1,3 @@
+import type {ReactNode} from 'react'
+export function Shell({children,title='Portal da Escola'}:{children:ReactNode;title?:string}){return <><header className="top"><a className="brand" href="/">ESCOLA DO LEGISLATIVO<br/><small>Câmara Municipal de Mococa</small></a><nav className="nav"><a href="/sobre">Sobre</a><a href="/cursos">Cursos</a><a href="/noticias">Notícias</a><a href="/biblioteca">Biblioteca</a><a href="/contato">Contato</a><a href="/login">Entrar</a></nav></header><main><div className="wrap"><div className="eyebrow">{title}</div>{children}</div></main><footer className="footer">Escola do Legislativo Dr. Thiago Ferraz de Siqueira · <a href="/privacidade">Privacidade</a> · <a href="/acessibilidade">Acessibilidade</a> · <a href="/termos">Termos</a></footer></>}
+
