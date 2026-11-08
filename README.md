@@ -11,3 +11,4 @@ Base inicial executável para Vercel/Next.js e Supabase/PostgreSQL. Inclui porta
 ## Estado da entrega
 
 Esta base não comprova a implementação integral de REQ-001–176: o texto completo desses requisitos e credenciais ativas não estavam disponíveis nesta conversa. Autenticação real, RBAC administrativo, storage, notificações, jobs agendados, certificados PDF e integração com dados institucionais ainda precisam ser configurados e testados em ambiente ativo.
+
