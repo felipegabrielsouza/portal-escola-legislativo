@@ -17,3 +17,4 @@ create policy "participants read own items" on public.certificate_correction_ite
 create policy "participants read own complements" on public.certificate_complementations for select to authenticated using (exists(select 1 from public.certificate_correction_requests r where r.id=request_id and r.participant_id=(select auth.uid())));
 create index on public.certificate_correction_requests(status,last_activity_at);
 create index on public.correction_monitoring(next_check_at,alert_level);
+
