@@ -21,6 +21,7 @@ export async function POST(request:Request,{params}:{params:Promise<{id:string}>
   const {error:updateError}=await supabase.from('certificate_correction_requests').update({status,review_count:(current.review_count||0)+1,final_decision_at:finalDecision?now:null,last_activity_at:now}).eq('id',id);
   if(updateError)return NextResponse.json({error:updateError.message},{status:400});
   await supabase.from('certificate_reviews').insert({request_id:id,reviewer_id:actorId,reason,status:'decided',decision:status,decided_at:now});
+  if(status==='approved'){const {error:reissueError}=await supabase.rpc('complete_certificate_correction',{p_request_id:id});if(reissueError)return NextResponse.json({error:'Decisão registrada, mas a reemissão precisa de correção operacional.',detail:reissueError.message},{status:409});}
   await supabase.from('certificate_request_events').insert({request_id:id,actor_id:actorId,event_type:'decision_recorded',details:{status,items:valid.map((x:{id:string;decision:string})=>({id:x.id,decision:x.decision}))}});
   return NextResponse.json({status});
 }
