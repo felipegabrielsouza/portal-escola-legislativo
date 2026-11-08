@@ -1,7 +1,5 @@
-node_modules/
-.next/
-.env*
-!.env.example
-out/
-coverage/
-
+Get-Content: 
+Line |
+   2 |  Get-Content -LiteralPath '.gitignore' -Raw
+     |  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Cannot find path '.gitignore' because it does not exist.
