@@ -1,5 +1,5 @@
 import {describe,expect,it} from 'vitest'
-import {anonymizedEvaluationKey,canCancelEnrollment,canReopenComplementation,isCertificateEligible,isValidCpf,normalizeCpf,validateRegistration,weightedAttendance} from '../lib/domain'
+import {anonymizedEvaluationKey,canCancelEnrollment,canReopenComplementation,isCertificateEligible,isEvaluationOpen,isValidCpf,nextWaitlistPosition,normalizeCpf,validateActivityForPublication,validateRegistration,weightedAttendance} from '../lib/domain'
 
 describe('regras do portal',()=>{
   it('normaliza e valida CPF',()=>{expect(normalizeCpf('529.982.247-25')).toBe('52998224725');expect(isValidCpf('529.982.247-25')).toBe(true);expect(isValidCpf('111.111.111-11')).toBe(false)})
@@ -7,5 +7,7 @@ describe('regras do portal',()=>{
   it('calcula presença ponderada e elegibilidade',()=>{expect(weightedAttendance([{hours:2,hoursPresent:2},{hours:4,hoursPresent:3}])).toBe(83.33);expect(isCertificateEligible(83.33,75,true)).toBe(true);expect(isCertificateEligible(83.33,75,false)).toBe(false)})
   it('protege cancelamento e reabertura por justificativa',()=>{const future=new Date(Date.now()+86400000);expect(canCancelEnrollment(future)).toBe(true);expect(canReopenComplementation('expired','justificativa formal com base suficiente')).toBe(true);expect(canReopenComplementation('expired','curto')).toBe(false)})
   it('gera chave não identificável para avaliação',()=>{expect(anonymizedEvaluationKey('form','enrollment')).toBe(anonymizedEvaluationKey('form','enrollment'));expect(anonymizedEvaluationKey('form','enrollment')).not.toContain('enrollment')})
+  it('bloqueia publicação sem campos mínimos e aceita atividade completa',()=>{expect(validateActivityForPublication({title:'',description:'',category:'',startsAt:'',endsAt:'',location:'',modality:'',durationHours:0,capacity:0})).not.toEqual([]);expect(validateActivityForPublication({title:'Curso',description:'Descrição',category:'Formação',startsAt:'2026-12-01T10:00:00Z',endsAt:'2026-12-01T12:00:00Z',location:'Plenário',modality:'Presencial',durationHours:2,capacity:30,registrationOpensAt:'2026-11-01T00:00:00Z',registrationClosesAt:'2026-11-30T23:59:00Z'})).toEqual([])})
+  it('preserva ordem da fila e janela de avaliação',()=>{expect(nextWaitlistPosition([null,2,5])).toBe(6);expect(isEvaluationOpen('2026-01-01','2026-12-31',new Date('2026-06-01'))).toBe(true);expect(isEvaluationOpen('2027-01-01',null,new Date('2026-06-01'))).toBe(false)})
 })
 
