@@ -9,6 +9,8 @@ export default async function AdminLayout({children}:{children:ReactNode}){
   const metadata=(claims?.app_metadata||{}) as Record<string,unknown>;
   const role=String(metadata.role||'');
   if(!claims?.sub||!['admin_general','staff','reviewer','operator'].includes(role))redirect('/login?next=/admin');
+  const {data:aal}=await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+  if(aal?.nextLevel==='aal2'&&aal.currentLevel!=='aal2')redirect('/login/mfa?next=/admin');
   return <>{children}</>;
 }
 
