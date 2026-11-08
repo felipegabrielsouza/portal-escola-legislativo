@@ -1,0 +1,3 @@
+import {Shell} from '@/app/components/Shell'
+export default function Privacidade(){return <Shell title="Privacidade"><h1>Privacidade e direitos dos titulares</h1><p>O portal coleta somente dados necessários para inscrições, autenticação, frequência, certificados e atendimento. O titular pode solicitar acesso, correção ou exclusão, sujeito à verificação de identidade, retenção legal e análise do Encarregado de Dados.</p><div className="card"><h2>Solicitar atendimento</h2><p>Envie a solicitação pela área de contato com o assunto “Direitos dos titulares”.</p><a className="button" href="/contato">Ir para contato</a></div></Shell>}
+
