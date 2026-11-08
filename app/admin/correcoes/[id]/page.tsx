@@ -1,0 +1,5 @@
+import {notFound} from 'next/navigation'
+import {createClient} from '@/lib/supabase/server'
+import ReviewForm from './ReviewForm'
+export default async function ReviewPage({params}:{params:Promise<{id:string}>}){const {id}=await params;const supabase=await createClient();const {data:r}=await supabase.from('certificate_correction_requests').select('id,protocol,status,justification,certificate_id,certificate_correction_items(id,field_name,requested_value,decision,decision_reason)').eq('id',id).single();if(!r)notFound();return <main className="wrap"><a href="/admin/correcoes">← Fila de correções</a><div className="eyebrow">{r.protocol}</div><h1>Revisar solicitação</h1><div className="card"><p><strong>Status:</strong> {r.status}</p><p>{r.justification}</p><ul>{(r.certificate_correction_items||[]).map((item:{id:string;field_name:string;requested_value:string;decision:string|null;decision_reason:string|null})=><li key={item.id}>{item.field_name}: {item.requested_value} — {item.decision||'aguardando'}</li>)}</ul></div><ReviewForm requestId={id} items={r.certificate_correction_items||[]}/></main>}
+
