@@ -1,0 +1,5 @@
+import {Shell} from '@/app/components/Shell'
+import {createClient} from '@/lib/supabase/server'
+import EvaluationForm from './EvaluationForm'
+export default async function Avaliar({params}:{params:Promise<{activityId:string}>}){const {activityId}=await params;const supabase=await createClient();const {data:form}=await supabase.from('evaluation_forms').select('id,title').eq('activity_id',activityId).eq('active',true).order('created_at',{ascending:false}).limit(1).maybeSingle();if(!form)return <Shell title="Avaliação"><div className="card"><h1>Avaliação indisponível</h1><p>Não há uma avaliação aberta para esta atividade.</p></div></Shell>;const {data:questions}=await supabase.from('evaluation_questions').select('id,prompt,kind,required,options').eq('form_id',form.id).order('question_order');return <Shell title="Avaliação"><div className="card narrow"><div className="eyebrow">Avaliação da atividade</div><h1>{form.title}</h1><EvaluationForm activityId={activityId} questions={(questions??[]) as never[]}/></div></Shell>}
+
