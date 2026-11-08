@@ -1,0 +1,4 @@
+import {Shell} from '@/app/components/Shell'
+import {createClient} from '@/lib/supabase/server'
+export default async function Biblioteca(){const supabase=await createClient();const {data}=await supabase.from('library_materials').select('title,slug,description,author,pdf_path').eq('status','published').order('title');return <Shell title="Biblioteca digital"><h1>Materiais e publicações</h1><div className="grid">{(data??[]).map(m=><article className="card" key={m.slug}><h2>{m.title}</h2><p>{m.description}</p><p>{m.author&&<>Autor: {m.author}</>}</p>{m.pdf_path&&<a className="button secondary" href={m.pdf_path}>Ler ou baixar PDF</a>}</article>)}{!data?.length&&<article className="card"><h2>Biblioteca em atualização</h2><p>Os materiais publicados aparecerão aqui.</p></article>}</div></Shell>}
+
