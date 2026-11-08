@@ -1,0 +1,4 @@
+import {requireStaffPage} from '@/lib/auth'
+import ActivityForm from './ActivityForm'
+export default async function AtividadesAdmin(){const {supabase}=await requireStaffPage();const {data}=await supabase.from('activities').select('id,title,status,starts_at,capacity').order('starts_at',{ascending:false});return <main className="wrap"><div className="eyebrow">Administração</div><h1>Atividades e inscrições</h1><ActivityForm/><section className="card" style={{marginTop:24}}><h2>Atividades cadastradas</h2><table><thead><tr><th>Atividade</th><th>Situação</th><th>Início</th><th>Vagas</th></tr></thead><tbody>{(data??[]).map(a=><tr key={a.id}><td>{a.title}</td><td>{a.status}</td><td>{new Date(a.starts_at).toLocaleString('pt-BR')}</td><td>{a.capacity}</td></tr>)}</tbody></table>{!data?.length&&<p>Nenhuma atividade cadastrada.</p>}</section></main>}
+
