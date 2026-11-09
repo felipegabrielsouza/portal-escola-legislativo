@@ -1,0 +1,4 @@
+import {NextResponse} from 'next/server'
+import {createClient} from '@/lib/supabase/server'
+export async function GET(_request:Request,{params}:{params:Promise<{id:string}>}){const {id}=await params;const supabase=await createClient();const {data:claimsData}=await supabase.auth.getClaims();if(!claimsData?.claims?.sub)return NextResponse.json({error:'Autenticação necessária.'},{status:401});const {data:certificate,error}=await supabase.from('certificates').select('id,pdf_path,status').eq('id',id).single();if(error||!certificate?.pdf_path||certificate.status!=='valid')return NextResponse.json({error:'Arquivo não disponível.'},{status:404});const {data,error:signError}=await supabase.storage.from('portal-private').createSignedUrl(certificate.pdf_path,300);if(signError||!data?.signedUrl)return NextResponse.json({error:'Não foi possível gerar o acesso temporário.'},{status:503});return NextResponse.redirect(data.signedUrl)}
+
