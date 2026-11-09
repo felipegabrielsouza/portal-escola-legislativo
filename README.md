@@ -29,7 +29,7 @@ Portal público e administrativo da Escola do Legislativo Dr. Thiago Ferraz de S
 
 ## Autorização administrativa
 
-O painel `/admin` exige um usuário autenticado com `app_metadata.role` igual a `admin_general`, `staff`, `reviewer` ou `operator`. A administração de papéis deve ser feita por operador autorizado no Supabase Auth; não há usuário administrativo padrão criado pelo código.
+O painel `/admin` exige um usuário autenticado com `app_metadata.role` igual a `admin_general`, `school_team`, `staff`, `reviewer` ou `operator`. A administração de papéis deve ser feita por operador autorizado no Supabase Auth; não há usuário administrativo padrão criado pelo código.
 
 ## Escopo e pendências verificadas
 
